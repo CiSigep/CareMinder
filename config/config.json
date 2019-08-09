@@ -1,19 +1,10 @@
 {
   "development": {
     "username": "root",
-    "password": null,
-    "database": "exampledb",
-    "host": "localhost",
-    "dialect": "mysql",
-    "use_env_variable": "DEV_URL"
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "testdb",
-    "host": "localhost",
-    "dialect": "mysql",
-    "logging": false
+    "password": "Battlefield74",
+    "database": "caredb",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
   },
   "production": {
     "use_env_variable": "JAWSDB_URL",
