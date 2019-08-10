@@ -18,8 +18,12 @@ module.exports = function(sequelize, DataTypes) {
       }
     });
 
-    Patient.hasMany(models.Task);
-    Patient.hasMany(models.Bill);
+    Patient.hasMany(models.Task, {
+      onDelete: "cascade"
+    });
+    Patient.hasMany(models.Bill, {
+      onDelete: "cascade"
+    });
   };
 
   return Patient;
