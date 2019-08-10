@@ -1,3 +1,13 @@
 .list-group-item {
   line-height: 2.5;
 }
+
+#logo {
+  align-content: center;
+  font-size: 15px;
+  font-family: 'Lato', sans-serif;
+}
+
+#calendar {
+  margin-inline: 15px;  
+}
