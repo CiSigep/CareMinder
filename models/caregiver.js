@@ -4,7 +4,8 @@ module.exports = function(sequelize, Datatypes) {
     firstName: Datatypes.STRING,
     lastName: Datatypes.STRING,
     username: Datatypes.STRING,
-    password: Datatypes.STRING
+    password: Datatypes.STRING,
+    email: Datatypes.STRING
   });
 
   // Associate the caregiver table to have many patients.
