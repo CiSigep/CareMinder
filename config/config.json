@@ -1,5 +1,6 @@
 {
   "development": {
+<<<<<<< HEAD
     "username": "root",
     "password": null,
     "database": "exampledb",
@@ -12,8 +13,10 @@
     "password": null,
     "database": "testdb",
     "host": "localhost",
+=======
+>>>>>>> 986c87aef001d11dc8ba97cb17b84d76c333a70e
     "dialect": "mysql",
-    "logging": false
+    "use_env_variable": "DEV_URL"
   },
   "production": {
     "use_env_variable": "JAWSDB_URL",
