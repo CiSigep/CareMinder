@@ -1,5 +1,5 @@
 var express = require("express");
-//var careDAO = require("../DAO/careDAO");
+var careDAO = require("../DAO/careDAO");
 var router = express.Router();
 
 router.get(["/", "/login"], function(req, res) {
