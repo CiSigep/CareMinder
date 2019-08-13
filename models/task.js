@@ -1,14 +1,34 @@
 module.exports = function(sequelize, DataTypes) {
   // Define a task table with these properties.
   var Task = sequelize.define("Task", {
-    start: DataTypes.DATE,
-    end: DataTypes.DATE,
-    repeats: DataTypes.BOOLEAN,
+    start: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    end: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    repeats: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
     interval: DataTypes.STRING,
-    priority: DataTypes.ENUM("Low", "Medium", "High"),
+    priority: {
+      type: DataTypes.ENUM("Low", "Medium", "High"),
+      allowNull: false
+    },
     notes: DataTypes.STRING,
-    title: DataTypes.STRING,
-    complete: DataTypes.BOOLEAN
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    complete: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    }
   });
 
   // Associate the table with the patient.

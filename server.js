@@ -1,15 +1,15 @@
 require("dotenv").config();
 var express = require("express");
+var session = require("express-session");
 var exphbs = require("express-handlebars");
-// var cookieParser = require("cookie-parser");
-// var bodyParser = require("body-parser");
-// var morgan = require("morgan");
+var cookieParser = require("cookie-parser");
+var bodyParser = require("body-parser");
+var morgan = require("morgan");
 var db = require("./models");
-//var passport = require("passport");
-//var flash = require("connect-flash");
+var passport = require("passport");
+var flash = require("connect-flash");
 
-// connect to our database
-//require("./config/passport.js")(passport);
+require("./config/passport.js")(passport);
 
 var app = express();
 var PORT = process.env.PORT || 3000;
@@ -20,18 +20,21 @@ app.use(express.json());
 app.use(express.static("public"));
 
 //set up our express application
-// app.use(morgan("dev")); // log every request to the console
-// app.use(cookieParser()); // read cookies (needed for auth)
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: true
-//   })
-// );
-// app.use(bodyParser.json());
-// app.use(function(req, res, next) {
-//   res.set("Cache-Control", "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0");
-//   next();
-// });
+app.use(morgan("dev")); // log every request to the console
+app.use(cookieParser()); // read cookies (needed for auth)
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
+app.use(bodyParser.json());
+app.use(function(req, res, next) {
+  res.set(
+    "Cache-Control",
+    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
+  );
+  next();
+});
 
 // Handlebars
 app.engine(
@@ -44,22 +47,26 @@ app.set("view engine", "handlebars");
 
 // Routes
 
-var loginRoutes = require("./controllers/loginController");
-app.use(loginRoutes);
-//require("./app/routes.js")(app, passport);
+app.use(
+  session({
+    secret: "some-secret",
+    resave: true,
+    saveUninitialized: true
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash());
 
-// required for passport
-// app.use(
-//   session({
-//     secret: "some-secret",
-//     resave: true,
-//     saveUninitialized: true
-//   })
+// var loginRoutes = require("./controllers/loginController")(
+//   express.Router(),
+//   passport
 // );
-// session secret
-// app.use(passport.initialize());
-// app.use(passport.session()); // persistent login sessions
-// app.use(flash()); // use connect-flash for flash messages stored in session
+
+var loginRoutes = require("./controllers/loginController");
+
+app.use(loginRoutes);
+
 var syncOptions = { force: false };
 
 // If running a test, set syncOptions.force to true
@@ -67,9 +74,7 @@ var syncOptions = { force: false };
 if (process.env.NODE_ENV === "test") {
   syncOptions.force = true;
 }
-//app.get("/test",function (req,res){
-//res.send("hello test")
-//})
+
 // Starting the server, syncing our models ------------------------------------/
 db.sequelize.sync(syncOptions).then(function() {
   app.listen(PORT, function() {
@@ -82,4 +87,3 @@ db.sequelize.sync(syncOptions).then(function() {
 });
 
 module.exports = app;
-//console.log("The magic happens on port " + port);
