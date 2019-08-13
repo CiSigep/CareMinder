@@ -22,12 +22,12 @@ router.get("/patient/:id", function(req, res) {
 });
 
 router.get("/api/pages??", function(req, res) {
-  res.json({ data: true });
+  res.json({  });
 });
 
 router.post("/api/task", function(req, res) {
  console.log(req.body);
-  res.json({ data: true });
+  res.json(req.body);
 });
 
 router.post("api/bill", function(req, res) {
