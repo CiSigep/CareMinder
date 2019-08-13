@@ -27,7 +27,9 @@ router.get("/api/pages??", function(req, res) {
 
 router.post("/api/task", function(req, res) {
  console.log(req.body);
+ //db.task.findAll({where:{id:req.params.task}}).then(function(data){
   res.json(req.body);
+ 
 });
 
 router.post("api/bill", function(req, res) {
