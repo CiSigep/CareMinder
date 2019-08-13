@@ -2,12 +2,12 @@ require("dotenv").config();
 var express = require("express");
 var exphbs = require("express-handlebars");
 // var cookieParser = require("cookie-parser");
-// var bodyParser = require("body-parser");
+   var bodyParser = require("body-parser");
 // var morgan = require("morgan");
 var db = require("./models");
 //var passport = require("passport");
 //var flash = require("connect-flash");
-
+var patientRoutes = require("./controllers/patientController");
 // connect to our database
 //require("./config/passport.js")(passport);
 
@@ -22,16 +22,16 @@ app.use(express.static("public"));
 //set up our express application
 // app.use(morgan("dev")); // log every request to the console
 // app.use(cookieParser()); // read cookies (needed for auth)
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: true
-//   })
-// );
-// app.use(bodyParser.json());
-// app.use(function(req, res, next) {
-//   res.set("Cache-Control", "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0");
-//   next();
-// });
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
+app.use(bodyParser.json());
+app.use(function(req, res, next) {
+  res.set("Cache-Control", "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0");
+  next();
+});
 
 // Handlebars
 app.engine(
@@ -46,6 +46,7 @@ app.set("view engine", "handlebars");
 
 var loginRoutes = require("./controllers/loginController");
 app.use(loginRoutes);
+app.use(patientRoutes);
 //require("./app/routes.js")(app, passport);
 
 // required for passport
