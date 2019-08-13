@@ -1,13 +1,30 @@
 module.exports = function(sequelize, DataTypes) {
   // Define a bill table with these properties.
   var Bill = sequelize.define("Bill", {
-    payTo: DataTypes.STRING,
-    amount: DataTypes.FLOAT,
-    due: DataTypes.DATE,
+    payTo: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    amount: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+    due: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
     interval: DataTypes.STRING,
     reason: DataTypes.STRING,
-    repeats: DataTypes.BOOLEAN,
-    paid: DataTypes.BOOLEAN
+    repeats: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
+    paid: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    }
   });
 
   // Associate the table with the patient.

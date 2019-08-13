@@ -1,11 +1,27 @@
-module.exports = function(sequelize, Datatypes) {
+module.exports = function(sequelize, DataTypes) {
   // Define a caregiver table with these properties.
   var Caregiver = sequelize.define("Caregiver", {
-    firstName: Datatypes.STRING,
-    lastName: Datatypes.STRING,
-    username: Datatypes.STRING,
-    password: Datatypes.STRING,
-    email: Datatypes.STRING
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   });
 
   // Associate the caregiver table to have many patients.
