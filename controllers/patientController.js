@@ -13,11 +13,26 @@ router.get("/patient/:id", function(req, res) {
   //   address: "155 2nd St ",
   //   phoneNumber: "401-3331"
   // }
-  db.Patient.findAll({where:{id:req.params.id}}).then(function(data){
+  careDAO.getPatientById(req.params.id,function(err,results){
+    if(err){
+      return res.status(500).end();
+      
+    }
+    else if (results){
+      return res.json(results);
+    }
+ else {
+   return res.status(404).end();
+ }
+  });
+  
+
+
+  /* db.Patient.findAll({where:{id:req.params.id}}).then(function(data){
     console.log(data[0].dataValues);
     res.json(data[0].dataValues);
 
-  });
+  }); */
   //res.json({ data: true });
 });
 
@@ -26,22 +41,54 @@ router.get("/api/pages??", function(req, res) {
 });
 
 router.post("/api/task", function(req, res) {
- console.log(req.body);
- //db.task.findAll({where:{id:req.params.task}}).then(function(data){
-  res.json(req.body);
+ 
+careDAO.createTask(req.body, function(err,results){
+  if(err){
+    return res.status(500).end(); }
+  return res.status(201).json(results);
+  
+});
+
  
 });
 
 router.post("api/bill", function(req, res) {
-  res.json({ data: true });
+  careDAO.createBill(req.body, function(err,results){
+    if(err){
+      return res.status(500).end(); }
+    return res.status(201).json(results);
+    
+  });
 });
 
 router.delete("/api/task/:id", function(req, res) {
-  res.json({ data: true });
+  careDAO.deleteTaskById(req.params.id,function(err, results){
+    if (err) {
+      return res.status(500).end(); 
+   
+    }
+    if (results.changedRows === 0) {
+      // If no rows were changed, then the ID must not exist, so 404.
+      return res.status(404).end();
+  } else {
+      res.status(200).end();
+  }
+  })
 });
 
 router.delete("/api/bill/:id", function(req, res) {
-  res.json({ data: true });
+  careDAO.deleteBillById(req.params.id,function(err, results){
+    if (err) {
+      return res.status(500).end(); 
+   
+    }
+    if (results.changedRows === 0) {
+      // If no rows were changed, then the ID must not exist, so 404.
+      return res.status(404).end();
+  } else {
+      res.status(200).end();
+  }
+  })
 });
 
 router.put("/api/task/:id", function(req, res) {
@@ -51,6 +98,5 @@ router.put("/api/task/:id", function(req, res) {
 router.put("/api/bill/:id", function(req, res) {
   res.json({ data: true });
 });
-
 
 module.exports = router;
