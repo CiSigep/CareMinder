@@ -63,11 +63,31 @@ router.delete("/api/bill/:id", isLoggedIn, function(req, res) {
 });
 
 router.put("/api/task/:id", isLoggedIn, function(req, res) {
-  res.json({ data: true });
+  careDAO.updateTask(req.params.id, req.body, function(err, results) {
+    if (err) {
+      return res.status(500).end();
+    }
+    if (results.changedRows === 0) {
+      // If no rows were changed, then the ID must not exist, so 404.
+      return res.status(404).end();
+    } else {
+      res.status(200).end();
+    }
+  });
 });
 
-router.put("/api/bill/:id", function(req, res) {
-  res.json({ data: true });
+router.put("/api/bill/:id", isLoggedIn, function(req, res) {
+  careDAO.updateBill(req.params.id,req.body,function(err, results) {
+    if (err) {
+      return res.status(500).end();
+    }
+    if (results.changedRows === 0) {
+      // If no rows were changed, then the ID must not exist, so 404.
+      return res.status(404).end();
+    } else {
+      res.status(200).end();
+    }
+  });
 });
 function isLoggedIn(req, res, next) {
   // if user is authenticated in the session, carry on

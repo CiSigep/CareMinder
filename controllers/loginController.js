@@ -2,12 +2,12 @@
 //var careDAO = require("../DAO/careDAO");
 //var router = express.Router();
 var path = require("path");
-module.exports = function(router, passport) {
-  router.get(["/", "/login"], function(req, res) {
+module.exports = function (router, passport) {
+  router.get(["/", "/login"], function (req, res) {
     res.sendFile(path.join(__dirname, "..", "public", "html", "signin.html"));
   });
 
-  router.get("/signup", function(req, res) {
+  router.get("/signup", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "public", "html", "signup.html"));
   });
 
@@ -18,7 +18,7 @@ module.exports = function(router, passport) {
       failureRedirect: "/login", // redirect back to the signup page if there is an error
       failureFlash: true // allow flash messages
     }),
-    function(req, res) {
+    function (req, res) {
       console.log("hello");
 
       if (req.body.remember) {
@@ -29,6 +29,10 @@ module.exports = function(router, passport) {
       res.redirect("/");
     }
   );
+  router.get("/logout", function(req, res) {
+    req.logout();
+    res.redirect("/");
+  });
 
   router.post(
     "/signup",
