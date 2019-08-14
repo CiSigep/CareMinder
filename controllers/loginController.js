@@ -1,9 +1,10 @@
 var express = require("express");
 //var careDAO = require("../DAO/careDAO");
+var path = require("path");
 var router = express.Router();
 
 router.get(["/", "/login"], function(req, res) {
-  res.json({ data: true });
+  res.sendFile(path.join(__dirname, "..", "public", "html", "signin.html"));
 });
 
 router.get("/signup", function(req, res) {
