@@ -19,6 +19,16 @@ module.exports = {
       .then(basePromiseCall(callback))
       .catch(basePromiseErr(callback));
   },
+  getCaregiverByUsername: function(username, callback) {
+    db.Caregiver.findOne({
+      where: {
+        username: username
+      },
+      include: [db.Patient]
+    })
+      .then(basePromiseCall(callback))
+      .catch(basePromiseErr(callback));
+  },
   // Gets a caregiver by their username and password. Includes associated patients.
   getCaregiverByUsernameAndPassword: function(username, password, callback) {
     db.Caregiver.findOne({
@@ -27,6 +37,15 @@ module.exports = {
         password: password
       },
       include: [db.Patient]
+    })
+      .then(basePromiseCall(callback))
+      .catch(basePromiseErr(callback));
+  },
+  getCaregiverById: function(id, callback) {
+    db.Caregiver.findOne({
+      where: {
+        id: id
+      }
     })
       .then(basePromiseCall(callback))
       .catch(basePromiseErr(callback));
@@ -65,10 +84,10 @@ module.exports = {
       .catch(basePromiseErr(callback));
   },
   // Updates a patient's task
-  updateTask: function(task, callback) {
+  updateTask: function(id, task, callback) {
     db.Task.update(task, {
       where: {
-        id: task.id
+        id: id
       }
     })
       .then(basePromiseCall(callback))
@@ -91,10 +110,10 @@ module.exports = {
       .catch(basePromiseErr(callback));
   },
   // Updates a bill selected by its id.
-  updateBill: function(bill, callback) {
+  updateBill: function(id, bill, callback) {
     db.Bill.update(bill, {
       where: {
-        id: bill.id
+        id: id
       }
     })
       .then(basePromiseCall(callback))

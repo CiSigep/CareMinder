@@ -1,0 +1,22 @@
+.container {
+    background: white;
+}
+
+body {
+    background:skyblue;
+    
+}
+ .image {
+    position: fixed;
+    left: 14.5%;
+ }
+
+ h4{
+     text-align: center;
+ }
+
+.responsive {
+    height: 50%;
+    width: 83%;
+}
+

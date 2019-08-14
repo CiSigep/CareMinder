@@ -1,66 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-    <link rel="" href="calender.html">
-    <link rel="" href="patient.html">
-    <title>Sign Up Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="/styles/style.css">
+  <title>Sign Up Page</title>
 </head>
+
 <body>
 
-        <div class="container">
-                <div class="row">
-                  <div class="col-md-4">
-                  </div>
-                  <div class="col-md-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-4">
 
-                        <h1> <img src="careminder.png" alt="Creminder Logo" height="100%" width="100%"> </h1>
+        <h1> <img src="/img/careminder.png" alt="Careminder Logo" height="100%" width="100%"> </h1>
 
-                        <br>
-                        <br>
+        <br>
+        <br>
 
-                       <h4>Sign Up For Careminder Account</h4> 
+        <h4>Sign Up For Careminder Account</h4>
 
-                       <br>
+        <br>
 
-                       <form>
-                            <div class="form-group">
-                              <label for="exampleInputEmail1">First Name</label>
-                              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter First Name">
-                            </div>
-                            <div class="form-group">
-                              <label for="exampleInputPassword1">Last Name</label>
-                              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Last Name">
-                            </div>
-                            <div class="form-group">
-                                    <label for="exampleInputEmail1">Enter a Valid Email Address</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                                  </div>
-                                  <div class="form-group">
-                                        <label for="exampleInputEmail1">Create A Password</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Password">
-                                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                                      </div>
-                                      <div class="form-group">
-                                            <label for="exampleInputEmail1">Re-Enter Password</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Re-Enter Passwsord">
-                                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                                          </div>
-                                          <div class="form-group form-check">
-                                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                  </div>
-                                  <button type="submit" class="btn btn-primary">Create Account</button>
-                              </form>
+        <form method="POST" action="/signup">
+          <div class="form-group">
+            <label for="firstNameInput">First Name</label>
+            <input name="firstName" type="text" class="form-control" id="firstNameInput"
+              placeholder="Enter First Name">
+          </div>
+          <div class="form-group">
+            <label for="lastNameInput">Last Name</label>
+            <input name="lastName" type="text" class="form-control" id="lastNameInput" placeholder="Enter Last Name">
+          </div>
+          <div class="form-group">
+            <label for="usernameInput">Username</label>
+            <input name="username" type="text" class="form-control" id="usernameInput" placeholder="Enter Username">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Enter a Valid Email Address</label>
+            <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="passwordInput">Create A Password</label>
+            <input name="password" type="password" class="form-control" id="passwordInput" aria-describedby="emailHelp"
+              placeholder="Enter Password">
+          </div>
+         
+          <button type="submit" class="btn btn-primary">Create Account</button>
+        </form>
 
-                  <div class="col-md-4">
-                  </div>
-                </div>
-              </div>
-    
+        <div class="col-md-4">
+        </div>
+      </div>
+    </div>
+
 </body>
+
 </html>
