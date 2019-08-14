@@ -31,11 +31,13 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
+  console.log(req.body);
+  res.set(
+    "Cache-Control",
+    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
+  );
 
-  res.set("Cache-Control", "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0");
-
-  
- next();
+  next();
 });
 
 // Handlebars
@@ -60,19 +62,17 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash());
 
-// var loginRoutes = require("./controllers/loginController")(
-//   express.Router(),
-//   passport
-// );
+var loginRoutes = require("./controllers/loginController")(
+  express.Router(),
+  passport
+);
 
-var loginRoutes = require("./controllers/loginController");
+//var loginRoutes = require("./controllers/loginController");
 
 app.use(loginRoutes);
 var patientRoutes = require("./controllers/patientController");
 app.use(patientRoutes);
 //require("./app/routes.js")(app, passport);
-
-
 
 var syncOptions = { force: false };
 
