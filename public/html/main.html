@@ -16,13 +16,19 @@
     <link href="/public/styles/styles.css" rel="stylesheet">
     <!-- <link href='node_modules/@fullcalendar/resource-timeline/main.css' rel='stylesheet' /> requires premium -->
 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src='https://unpkg.com/@fullcalendar/core/main.min.js'></script>
     <script src='https://unpkg.com/@fullcalendar/daygrid/main.min.js'></script>
+    <script src='https://unpkg.com/@fullcalendar/timegrid/main.min.js'></script>
     <script src='https://unpkg.com/@fullcalendar/list/main.min.js'></script>
     <script src='https://unpkg.com/@fullcalendar/interaction/main.min.js'></script>
     <script src='https://unpkg.com/@fullcalendar/bootstrap/main.min.js'></script>
-    <script src='https://unpkg.com/@fullcalendar/resource-daygrid/main.min.js'></script>
     <script src='https://unpkg.com/@fullcalendar/resource-common/main.min.js'></script>
+    <script src='https://unpkg.com/@fullcalendar/resource-daygrid/main.min.js'></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 
     <!-- <script src='fullcalendar/resource-timeline/main.js'></script> requires premium -->
 
@@ -40,25 +46,35 @@
                 header: {
                     left: 'prev,next, today',
                     center: 'title',
-                    right: 'addEventButton, timeGridWeek, timeGridDay, listMonth'
+                    right: 'addEventButton, dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                 },
-                editable: true,
+                editable: false, // We want to update the events programmatically
                 eventLimit: true, //too many events in a day, show popover
                 customButtons: {
                     addEventButton: {
-                        text: 'add event',
+                        text: 'Add Event',
                         click: function () {
-                            var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-                            var date = new Date(dateStr + "T00:00:00"); //will be in local time
-                            if (!isNAN(date.valueOf())) {
-                                calendar.addEvent({
-                                    title: 'dynamic event',
-                                    start: date,
-                                    allDay: true
-                                });
-                            }
+
+                            // Display the modal to get event data
+                            $("#taskModal").modal(); // Look at Bootstrap modals
+                            // var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+                            // var date = new Date(dateStr + "T00:00:00"); //will be in local time
+                            // if (!isNaN(date.valueOf())) {
+                            //     calendar.addEvent({
+                            //         title: 'dynamic event',
+                            //         start: date,
+                            //         allDay: true
+                            //     });
+                            // }
                         }
                     }
+                },
+                eventClick: function (info) { // https://fullcalendar.io/docs/eventClick
+                    $("#eventIdSpan").text(info.event.title);
+
+                    info.event.setProp("title", "I was clicked"); // https://fullcalendar.io/docs/Event-setProp
+
+                    $("#eventClickModal").modal();
                 }
                 // defaultView: 'listWeek'
             });
@@ -75,6 +91,34 @@
 
 
             calendar.render();
+
+            $("#repeatsCheck").on("click", function (e) { // only allow editing of the interval if this is checked
+                // They may need to be cleared too.
+                var check = $(this).prop("checked");
+                $("#repeatNumber").attr("disabled", !check);
+                $("#intervalSelect").attr("disabled", !check);
+            });
+
+            $("#saveTaskBtn").on("click", function (e) {
+                var newTask = { // https://fullcalendar.io/docs/event-parsing
+                    title: $("#taskTitle").val(),
+                    start: new Date($("#taskStart").val()),
+                    end: new Date($("#taskEnd").val()),
+                    extendedProps: { // Where non-FullCalendar properties go
+                        priorty: $("#prioritySelect").val()
+                    }
+                } // Add the other properties to the object.
+                // Recurring events have documentation in event parsing
+
+
+                // Before you do this, send it to the database.
+                var ev = calendar.addEvent(newTask);
+
+                // You need to clear out the modal input values.
+
+                console.log(ev.extendedProps);
+                $('#taskModal').modal('hide');
+            });
 
         });
 
@@ -112,8 +156,93 @@
 
     <br>
     <div class="container">
-    <div id='calendar'></div>
-</div>
+        <div id='calendar'></div>
+        <div class="modal fade" id="taskModal" abindex="-1" role="dialog" aria-labelledby="taskLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="taskLabel">Task</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <label for="taskTitle" class="col-form-label">Title:</label>
+                                    <input type="text" class="form-control" id="taskTitle">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <label for="taskStart" class="col-form-label">Start:</label>
+                                    <input type="text" class="form-control" id="taskStart">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <label for="taskEnd" class="col-form-label">End:</label>
+                                    <input type="text" class="form-control" id="taskEnd">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <label for="prioritySelect" class="col-form-label">Priority:</label>
+                                    <select class="form-control" id="prioritySelect">
+                                        <option value="High">High</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Low">Low</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="repeats" id="repeatsCheck">
+                                <label class="form-check-label" for="repeatsCheck">
+                                    Repeats
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-3">
+                                    <label for="repeatNumber" class="col-form-label">Repeats For:</label>
+                                    <input class="form-control" type="text" id="repeatNumber" disabled>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label for="intervalSelect" class="col-form-label">Time:</label>
+                                    <select class="form-control" id="intervalSelect" disabled>
+                                        <option value="d">Day(s)</option>
+                                        <option value="w">Week(s)</option>
+                                        <option value="m">Month(s)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="saveTaskBtn" type="button" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="eventClickModal" abindex="-1" role="dialog" aria-labelledby="eventLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="eventLabel">Event</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        You Clicked the <span id="eventIdSpan"></span> Event!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
