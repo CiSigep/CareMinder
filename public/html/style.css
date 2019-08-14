@@ -14,3 +14,9 @@ body {
  h4{
      text-align: center;
  }
+
+.responsive {
+    height: 50%;
+    width: 83%;
+}
+
