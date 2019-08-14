@@ -20,8 +20,10 @@ app.use(express.json());
 app.use(express.static("public"));
 
 //set up our express application
+
 app.use(morgan("dev")); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
+
 app.use(
   bodyParser.urlencoded({
     extended: true
@@ -33,6 +35,7 @@ app.use(function(req, res, next) {
     "Cache-Control",
     "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
   );
+
   next();
 });
 
@@ -58,14 +61,17 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash());
 
-// var loginRoutes = require("./controllers/loginController")(
-//   express.Router(),
-//   passport
-// );
+var loginRoutes = require("./controllers/loginController")(
+  express.Router(),
+  passport
+);
 
-var loginRoutes = require("./controllers/loginController");
+//var loginRoutes = require("./controllers/loginController");
 
 app.use(loginRoutes);
+var patientRoutes = require("./controllers/patientController");
+app.use(patientRoutes);
+//require("./app/routes.js")(app, passport);
 
 var syncOptions = { force: false };
 
