@@ -1,7 +1,7 @@
 var express = require("express");
 var careDAO = require("../DAO/careDAO");
 var router = express.Router();
-var db = require("../models/index.js");
+//var db = require("../models/index.js");
 
 //Route to find patient by id 
 router.get("/patient/:id", function(req, res) {
@@ -41,7 +41,7 @@ router.get("/api/pages??", function(req, res) {
 });
 
 router.post("/api/task", function(req, res) {
- 
+  
 careDAO.createTask(req.body, function(err,results){
   if(err){
     return res.status(500).end(); }
