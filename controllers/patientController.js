@@ -1,8 +1,16 @@
 var express = require("express");
 var careDAO = require("../DAO/careDAO");
 var router = express.Router();
+var path = require("path");
 //var db = require("../models/index.js");
 
+router.get("/profile", isLoggedIn, function(req, res) {
+  res.sendFile(path.join(__dirname, "..", "public", "html", "patient.html"));
+});
+
+router.get("/main", isLoggedIn, function(req, res) {
+  res.sendFile(path.join(__dirname, "..", "public", "html", "main.html"));
+});
 //Route to find patient by id
 router.get("/patient/:id", isLoggedIn, function(req, res) {
   careDAO.getPatientById(req.params.id, function(err, results) {
@@ -77,7 +85,7 @@ router.put("/api/task/:id", isLoggedIn, function(req, res) {
 });
 
 router.put("/api/bill/:id", isLoggedIn, function(req, res) {
-  careDAO.updateBill(req.params.id,req.body,function(err, results) {
+  careDAO.updateBill(req.params.id, req.body, function(err, results) {
     if (err) {
       return res.status(500).end();
     }
