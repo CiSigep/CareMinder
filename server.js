@@ -43,7 +43,16 @@ app.use(function(req, res, next) {
 app.engine(
   "handlebars",
   exphbs({
-    defaultLayout: "main"
+    defaultLayout: "main",
+    helpers: {
+      section: function(name, options) {
+        if (!this._sections) {
+          this._sections = {};
+        }
+        this._sections[name] = options.fn(this);
+        return null;
+      }
+    }
   })
 );
 app.set("view engine", "handlebars");
