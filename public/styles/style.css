@@ -6,17 +6,20 @@ body {
     background:skyblue;
     
 }
- .image {
-    position: fixed;
-    left: 14.5%;
- }
 
  h4{
      text-align: center;
  }
 
 .responsive {
-    height: 50%;
-    width: 83%;
+    height: 100%;
+    width: 250%;
+  margin-left: -75%;
+  margin-right: -75%;
+    
 }
 
+h1 {
+    margin-left: 0%;
+  margin-right: 0%;
+}
