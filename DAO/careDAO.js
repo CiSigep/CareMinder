@@ -2,8 +2,11 @@ var db = require("../models");
 var newPatient = req.body;
 newPatient.CaregiverId = req.user.id;
 
+var patientObject = { 
+  newpatient:newPatient.CaregiverId = req.user.id;
+};
 function basePromiseCall(callback) {
-  return function (results) {
+  return function(results) {
     callback(null, results);
   };
 }
