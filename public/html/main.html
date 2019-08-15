@@ -94,28 +94,37 @@
                     title: $("#taskTitle").val(),
                     start: new Date($("#taskStart").val()),
                     end: new Date($("#taskEnd").val()),
+                    startTime: new Time($("billTimeStart").val()),
+                    endTime: new Time($("#billTimeEnd").val()),
                     extendedProps: { // Where non-FullCalendar properties go
-                        priorty: $("#prioritySelect").val()
+                        priorty: $("#prioritySelect").val(),
+                        repeats: $("#repeatNumber").val(),
+                        time: $("#intervalSelect").val(),
                     },
                 }; // Add the other properties to the object.
                 // Recurring events have documentation in event parsing
                 $("#saveBillBtn").on("click", function (e) {
-                    var newTask = { // https://fullcalendar.io/docs/event-parsing
+                    var newBill = { // https://fullcalendar.io/docs/event-parsing
                         title: $("#billTitle").val(),
                         start: new Date($("#billStart").val()),
-                        end: new Date($("#billEnd").val()),
+                        // end: new Date($("#billEnd").val()), //not sure if this is the correct way for the due date
                         extendedProps: { // Where non-FullCalendar properties go
-                            priorty: $("#prioritySelect").val()
+                            amount: $("#billAmount").val(),
+                            payTo: $("#billPayTo").val(),
+                            reason: $("#billReason").val(),
+                            priorty: $("#prioritySelect").val(),
+                            repeats: $("#repeatNumber").val(),
+                            time: $("#intervalSelect").val(),
                         },
                     };
 
                     // Before you do this, send it to the database.
                     var ev = calendar.addEvent(newTask);
-
+                    var ev = calendar.addEvent(newBill);
                     // You need to clear out the modal input values.
 
                     console.log(ev.extendedProps);
-                    $('#taskModal').modal('hide');
+                    $('#saveTaskModal').modal('hide');
                     $('#billModal').modal('hide');
                 });
             });
@@ -146,10 +155,6 @@
                     <span class="navbar-brand" id="logo">CareMinder</span>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-            </form>
         </div>
     </nav>
 
@@ -188,6 +193,18 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-12">
+                                    <label for="taskTimeStart" class="col-form-label">Start Time:</label>
+                                    <input type="text" class="form-control" id="taskEnd">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <label for="taskTimeEnd" class="col-form-label">End Time:</label>
+                                    <input type="text" class="form-control" id="taskEnd">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12">
                                     <label for="prioritySelect" class="col-form-label">Priority:</label>
                                     <select class="form-control" id="prioritySelect">
                                         <option value="High">High</option>
@@ -219,7 +236,9 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button id="saveTaskBtn" type="button" class="btn btn-primary">Save</button>
+                        <form action="/api/task" method="POST">
+                            <button id="saveTaskBtn" type="submit" class="btn btn-primary">Save</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -239,31 +258,31 @@
                         <form>
                             <div class="form-row">
                                 <div class="form-group col-12">
-                                    <label for="taskTitle" class="col-form-label">Title:</label>
+                                    <label for="billTitle" class="col-form-label">Title:</label>
                                     <input type="text" class="form-control" id="taskTitle">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-12">
-                                    <label for="taskStart" class="col-form-label">Due Date:</label>
+                                    <label for="billStart" class="col-form-label">Due Date:</label>
                                     <input type="text" class="form-control" id="taskStart">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-12">
-                                    <label for="taskEnd" class="col-form-label">Amount:</label>
+                                    <label for="billAmount" class="col-form-label">Amount:</label>
                                     <input type="text" class="form-control" id="taskEnd">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-12">
-                                    <label for="taskEnd" class="col-form-label">Pay To:</label>
+                                    <label for="billPayTo" class="col-form-label">Pay To:</label>
                                     <input type="text" class="form-control" id="taskEnd">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-12">
-                                    <label for="taskEnd" class="col-form-label">Reason:</label>
+                                    <label for="billReason" class="col-form-label">Reason:</label>
                                     <input type="text" class="form-control" id="taskEnd">
                                 </div>
                             </div>
@@ -300,7 +319,9 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button id="saveTaskBtn" type="button" class="btn btn-primary">Save</button>
+                        <form action="/api/bill" method="POST">
+                            <button id="saveBillBtn" type="submit" class="btn btn-primary">Save</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -311,7 +332,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="eventLabel">Event</h5>
+                        <h5 class="modal-title" id="eventLabel">Bill</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
