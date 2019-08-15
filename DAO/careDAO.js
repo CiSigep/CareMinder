@@ -86,6 +86,7 @@ module.exports = {
       .then(basePromiseCall(callback))
       .catch(basePromiseErr(callback));
   },
+
   // Creates a task for a patient.
   createTask: function(task, callback) {
     db.Task.create(task)
