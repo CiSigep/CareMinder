@@ -69,14 +69,13 @@ router.post("api/bill", isLoggedIn, function(req, res) {
 });
 
 router.post("/api/patients", isLoggedIn, function(req, res) {
-  careDAO.createBill(req.body, function(err, results) {
+  careDAO.createPatient(req.body, function(err, results) {
     if (err) {
       return res.status(500).end();
     }
     return res.status(201).json(results);
   });
 });
-
 
 router.delete("/api/task/:id", isLoggedIn, function(req, res) {
   careDAO.deleteTaskById(req.params.id, function(err, results) {
