@@ -2,8 +2,6 @@ var express = require("express");
 var careDAO = require("../DAO/careDAO");
 var router = express.Router();
 
-
-
 router.get("/profile", isLoggedIn, function(req, res) {
   careDAO.getPatientsByCaregiverId(req.user.id, function(err, results) {
     if (err) {
