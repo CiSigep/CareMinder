@@ -2,6 +2,8 @@ var express = require("express");
 var careDAO = require("../DAO/careDAO");
 var router = express.Router();
 
+
+
 router.get("/profile", isLoggedIn, function(req, res) {
   careDAO.getPatientsByCaregiverId(req.user.id, function(err, results) {
     if (err) {
@@ -69,7 +71,9 @@ router.post("api/bill", isLoggedIn, function(req, res) {
 });
 
 router.post("/api/patients", isLoggedIn, function(req, res) {
-  careDAO.createPatient(req.body, function(err, results) {
+  var patientObject = req.body;
+  patientObject.CaregiverId = req.user.id;
+  careDAO.createPatient(patientObject, function(err, results) {
     if (err) {
       return res.status(500).end();
     }
