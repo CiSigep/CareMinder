@@ -1,18 +1,44 @@
 var express = require("express");
 var careDAO = require("../DAO/careDAO");
 var router = express.Router();
-var path = require("path");
-//var db = require("../models/index.js");
 
 router.get("/profile", isLoggedIn, function(req, res) {
-  res.sendFile(path.join(__dirname, "..", "public", "html", "patient.html"));
+  careDAO.getPatientsByCaregiverId(req.user.id, function(err, results) {
+    if (err) {
+      return res.status(500).end();
+    }
+    res.render("patient", {
+      caregiver: req.user,
+      Patients: results.rows
+    });
+  });
 });
 
-router.get("/main", isLoggedIn, function(req, res) {
-  res.sendFile(path.join(__dirname, "..", "public", "html", "main.html"));
+router.get("/main/:patientId?", isLoggedIn, function(req, res) {
+  careDAO.getPatientsByCaregiverId(req.user.id, function(err, results) {
+    if (err) {
+      return res.status(500).end();
+    }
+    var selectedPatient = -1;
+
+    if (req.params.patientId) {
+      // Verify that we have this patient
+      for (var i = 0; i < results.count; i++) {
+        if (req.params.patientId === results.rows[i].id) {
+          selectedPatient = results.rows[i].id;
+        }
+      }
+    }
+
+    res.render("calendar", {
+      caregiver: req.user,
+      Patients: results.rows,
+      startingPatient: selectedPatient
+    });
+  });
 });
 //Route to find patient by id
-router.get("/patient/:id", isLoggedIn, function(req, res) {
+router.get("/api/patient/:id", isLoggedIn, function(req, res) {
   careDAO.getPatientById(req.params.id, function(err, results) {
     if (err) {
       return res.status(500).end();
