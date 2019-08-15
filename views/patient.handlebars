@@ -1,0 +1,77 @@
+{{#section 'head'}}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+<link rel="stylesheet" href="/styles/style.css"> 
+<title>Patient List</title>
+{{/section}}
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a href="../public/html/main.html"><i class="fas fa-home fa-2x"></i></a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <span class="navbar-brand" id="logo">CareMinder</span>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <h1> <img src="/img/careminder.png" alt="Careminder Logo" height="100%" width="100%"> </h1>
+
+            <br>
+            <br>
+
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{caregiver.firstName}} {{caregiver.lastName}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{caregiver.id}}</h6>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Patients</h5>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Choose One
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="Patients">
+                            {{#each Patients}}
+                                <a class="dropdown-item" href="/main/{{id}}">{{firstName}} {{lastName}}</a>
+                            {{/each}}
+
+                            {{!-- <a class="dropdown-item" href="#">Patient1</a>
+                            <a class="dropdown-item" href="#">Patient2</a>
+                            <a class="dropdown-item" href="#">Patient3 </a> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
