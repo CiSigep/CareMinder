@@ -23,9 +23,10 @@ router.get("/main/:patientId?", isLoggedIn, function(req, res) {
     var selectedPatient = -1;
 
     if (req.params.patientId) {
+      var intId = parseInt(req.params.patientId);
       // Verify that we have this patient
       for (var i = 0; i < results.count; i++) {
-        if (req.params.patientId === results.rows[i].id) {
+        if (intId === results.rows[i].id) {
           selectedPatient = results.rows[i].id;
         }
       }
