@@ -6,11 +6,11 @@ module.exports = function(router, passport) {
   router.get(["/", "/login"], function(req, res) {
     res.sendFile(path.join(__dirname, "..", "public", "html", "signin.html"));
   });
-
+  //Get call for signup
   router.get("/signup", function(req, res) {
     res.sendFile(path.join(__dirname, "..", "public", "html", "signup.html"));
   });
-
+  //Post for login
   router.post(
     "/login",
     passport.authenticate("local-login", {
@@ -33,7 +33,7 @@ module.exports = function(router, passport) {
     req.logout();
     res.redirect("/");
   });
-
+  //Signup post
   router.post(
     "/signup",
     passport.authenticate("local-signup", {
