@@ -31,99 +31,141 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"
+    integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
 
 <!-- <script src='fullcalendar/resource-timeline/main.js'></script> requires premium -->
 
 <script>
 
     document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                plugins: ['dayGrid', 'interaction', 'timeGrid', 'list', 'bootstrap'],
-                timeZone: 'UTC',
-                themeSystem: 'bootstrap',
-                header: {
-                    left: 'prev,next, today, custom1, custom2',
-                    center: 'title',
-                    right: ', dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-                },
-                editable: false, // We want to update the events programmatically
-                eventLimit: true, //too many events in a day, show popover
-                customButtons: {
-                    custom1: {
-                        text: 'add task',
-                        click: function () {
-                            $("#taskModal").modal();
-                        }
-                    },
-                    custom2: {
-                        text: 'add bill',
-                        click: function () {
-                            $("#billModal").modal();
-                        }
-
+        var calendarEl = document.getElementById('calendar');
+        //console.log($("#startingPatient").val());
+        var selectedPatient = $("#startingPatient").val() !== -1 ? $("#startingPatient").val() : $("#patientDropdown a:first-child").attr("data-patientid");
+        //console.log(selectedPatient);
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: ['dayGrid', 'interaction', 'timeGrid', 'list', 'bootstrap'],
+            timeZone: 'local',
+            themeSystem: 'bootstrap',
+            header: {
+                left: 'prev,next, today, custom1, custom2',
+                center: 'title',
+                right: ', dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            },
+            editable: false, // We want to update the events programmatically
+            eventLimit: true, //too many events in a day, show popover
+            customButtons: {
+                custom1: {
+                    text: 'add task',
+                    click: function () {
+                        $("#taskModal").modal();
                     }
                 },
-                eventClick: function (info) { // https://fullcalendar.io/docs/eventClick
-                    $("#eventIdSpan").text(info.event.title);
+                custom2: {
+                    text: 'add bill',
+                    click: function () {
+                        $("#billModal").modal();
+                    }
 
-                    info.event.setProp("title", "I was clicked"); // https://fullcalendar.io/docs/Event-setProp
-
-                    $("#eventClickModal").modal();
                 }
-            });
+            },
+            eventClick: function (info) { // https://fullcalendar.io/docs/eventClick
+                $("#eventIdSpan").text(info.event.title);
+
+                $("#eventClickModal").modal();
+            }
+        });
 
 
-            calendar.render();
+        calendar.render();
 
-            $("#repeatsCheck").on("click", function (e) { // only allow editing of the interval if this is checked
-                // They may need to be cleared too.
-                var check = $(this).prop("checked");
-                $("#repeatNumber").attr("disabled", !check);
-                $("#intervalSelect").attr("disabled", !check);
-            });
+        $("#repeatsCheck").on("click", function (e) { // only allow editing of the interval if this is checked
+            // They may need to be cleared too.
+            var check = $(this).prop("checked");
+            $("#repeatNumber").attr("disabled", !check);
+            $("#intervalSelect").attr("disabled", !check);
+        });
 
-            $("#saveTaskBtn").on("click", function (e) {
-                var newTask = { // https://fullcalendar.io/docs/event-parsing
-                    title: $("#taskTitle").val(),
-                    start: new Date($("#taskStart").val()),
-                    end: new Date($("#taskEnd").val()),
-                    startTime: new Time($("billTimeStart").val()),
-                    endTime: new Time($("#billTimeEnd").val()),
-                    extendedProps: { // Where non-FullCalendar properties go
-                        priorty: $("#prioritySelect").val(),
-                        repeats: $("#repeatNumber").val(),
-                        time: $("#intervalSelect").val(),
-                    },
-                }; // Add the other properties to the object.
-                // Recurring events have documentation in event parsing
-                $("#saveBillBtn").on("click", function (e) {
-                    var newBill = { // https://fullcalendar.io/docs/event-parsing
-                        title: $("#billTitle").val(),
-                        start: new Date($("#billStart").val()),
-                        // end: new Date($("#billEnd").val()), //not sure if this is the correct way for the due date
-                        extendedProps: { // Where non-FullCalendar properties go
-                            amount: $("#billAmount").val(),
-                            payTo: $("#billPayTo").val(),
-                            reason: $("#billReason").val(),
-                            priorty: $("#prioritySelect").val(),
-                            repeats: $("#repeatNumber").val(),
-                            time: $("#intervalSelect").val(),
-                        },
-                    };
-
-                    // Before you do this, send it to the database.
-                    var ev = calendar.addEvent(newTask);
-                    var ev = calendar.addEvent(newBill);
-                    // You need to clear out the modal input values.
-
-                    console.log(ev.extendedProps);
-                    $('#saveTaskModal').modal('hide');
-                    $('#billModal').modal('hide');
-                });
+        $("#saveTaskBtn").on("click", function (e) {
+            var newTask = { // https://fullcalendar.io/docs/event-parsing
+                title: $("#taskTitle").val(),
+                start: moment($("#taskStart").val() + " " + $("taskTimeStart").val(), "MM-DD-YYYY HH:mm a").format(),
+                end: moment($("#taskEnd").val() + " " + $("taskTimeEnd").val(), "MM-DD-YYYY HH:mm a").format(),
+                extendedProps: { // Where non-FullCalendar properties go
+                    priority: $("#prioritySelect").val(),
+                    repeats: $("#repeatsCheckTask").prop("checked"),
+                    intervalNum: $("#repeatNumberTask").val(),
+                    time: $("#intervalSelectTask").val(),
+                },
+            };
+            var taskObject = {
+                title: newTask.title,
+                priority: newTask.extendedProps.priority,
+                repeats: newTask.extendedProps.repeats,
+                interval: newTask.extendedProps.repeats ? newTask.extendedProps.intervalNum + newTask.extendedProps.time : null,
+                start: newTask.start,
+                end: newTask.end,
+                PatientId: selectedPatient
+            }
+            $.ajax({
+                url: "/api/task",
+                method: "POST",
+                data: taskObject
+            }).done(function(data){
+                // Clear out modal
+                $("#taskModal input:text").val("");
+                // add to calendar
+                calendar.addEvent(data);
+                $("#saveTaskModal").modal("hide");
+            }).fail(function(err) {
             });
         });
+        $("#saveBillBtn").on("click", function (e) {
+            var newBill = { // https://fullcalendar.io/docs/event-parsing
+                title: $("#billPayTo").val(),
+                start: moment($("#billDue").val(), "MM-DD-YYYY").format(), allDay: true,
+                // end: new Date($("#billEnd").val()),
+                extendedProps: { // Where non-FullCalendar properties go
+                    amount: $("#billAmount").val(),
+                    time: $("#intervalSelectBill").val(),
+                    reason: $("#billReason").val(),
+                    repeats: $("#repeatCheckBill").prop("checked"),
+                    intervalNum: $("#repeatNumberBill").val(),
+                },
+            };
+            var billObject = {
+                payTo: newBill.title,
+                due: newBill.start,
+                amount: newBill.extendedProps.amount,
+                interval: newBill.extendedProps.repeats ? newBill.extendedProps.intervalNum + newBill.extendedProps.time : null,
+                reason: newBill.extendedProps.reason,
+                repeats: newBill.extendedProps.repeats,
+                PatientId: selectedPatient
+            };
+            $.ajax({
+                url: "/api/bill",
+                method: "POST",
+                data: billObject
+            }).done(function(data){
+                newBill.id = data.id;
+                // Clear out modal
+                $("#billModal input:text").val("");
+                // add to calendar
+                calendar.addEvent(newBill);
+                $("#billModal").modal("hide");
+            }).fail(function(err) {
+            });
+
+        });
+        // Before you do this, send it to the database.
+        //var ev = calendar.addEvent(newTask);
+        //var ev = calendar.addEvent(newBill);
+        // You need to clear out the modal input values.
+
+        //console.log(ev.extendedProps);
+        $('#saveTaskModal').modal('hide');
+        $('#billModal').modal('hide');
+    });
 
 </script>
 {{/section}}
@@ -137,7 +179,7 @@
                     aria-haspopup="true" aria-expanded="false">
                     Patients
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div id="patientDropdown" class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {{#each Patients}}
                     <a class="dropdown-item patient-select" data-patientId="{{id}}" href="#">{{firstName}}
                         {{lastName}}</a>
@@ -209,18 +251,18 @@
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="repeats" id="repeatsCheck">
-                            <label class="form-check-label" for="repeatsCheck">
+                            <label class="form-check-label" for="repeatsCheckTask">
                                 Repeats
                             </label>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-3">
-                                <label for="repeatNumber" class="col-form-label">Repeats For:</label>
-                                <input class="form-control" type="text" id="repeatNumber" disabled>
+                                <label for="repeatNumberTask" class="col-form-label">Repeats For:</label>
+                                <input class="form-control" type="text" id="repeatNumberTask" disabled>
                             </div>
                             <div class="form-group col-3">
-                                <label for="intervalSelect" class="col-form-label">Time:</label>
-                                <select class="form-control" id="intervalSelect" disabled>
+                                <label for="intervalSelectTask" class="col-form-label">Time:</label>
+                                <select class="form-control" id="intervalSelectTask" disabled>
                                     <option value="d">Day(s)</option>
                                     <option value="w">Week(s)</option>
                                     <option value="m">Month(s)</option>
@@ -248,58 +290,42 @@
                     <form>
                         <div class="form-row">
                             <div class="form-group col-12">
-                                <label for="billTitle" class="col-form-label">Title:</label>
-                                <input type="text" class="form-control" id="taskTitle">
+                                <label for="billPayTo" class="col-form-label">Pay To:</label>
+                                <input type="text" class="form-control" id="billPayTo">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-12">
-                                <label for="billStart" class="col-form-label">Due Date:</label>
-                                <input type="text" class="form-control" id="taskStart">
+                                <label for="billDue" class="col-form-label">Due Date:</label>
+                                <input type="text" class="form-control" id="billDue">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-12">
                                 <label for="billAmount" class="col-form-label">Amount:</label>
-                                <input type="text" class="form-control" id="taskEnd">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-12">
-                                <label for="billPayTo" class="col-form-label">Pay To:</label>
-                                <input type="text" class="form-control" id="taskEnd">
+                                <input type="text" class="form-control" id="billAmount">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-12">
                                 <label for="billReason" class="col-form-label">Reason:</label>
-                                <input type="text" class="form-control" id="taskEnd">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-12">
-                                <label for="prioritySelect" class="col-form-label">Priority:</label>
-                                <select class="form-control" id="prioritySelect">
-                                    <option value="High">High</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="Low">Low</option>
-                                </select>
+                                <input type="text" class="form-control" id="billReason">
                             </div>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="repeats" id="repeatsCheck">
-                            <label class="form-check-label" for="repeatsCheck">
+                            <input class="form-check-input" type="checkbox" name="repeats" id="repeatsCheckBill">
+                            <label class="form-check-label" for="repeatsCheckBill">
                                 Repeats
                             </label>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-3">
-                                <label for="repeatNumber" class="col-form-label">Repeats For:</label>
-                                <input class="form-control" type="text" id="repeatNumber" disabled>
+                                <label for="repeatNumberBill" class="col-form-label">Repeats For:</label>
+                                <input class="form-control" type="text" id="repeatNumberBill" disabled>
                             </div>
                             <div class="form-group col-3">
-                                <label for="intervalSelect" class="col-form-label">Time:</label>
-                                <select class="form-control" id="intervalSelect" disabled>
+                                <label for="intervalSelectBill" class="col-form-label">Time:</label>
+                                <select class="form-control" id="intervalSelectBill" disabled>
                                     <option value="d">Day(s)</option>
                                     <option value="w">Week(s)</option>
                                     <option value="m">Month(s)</option>
