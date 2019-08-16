@@ -68,6 +68,17 @@ router.post("api/bill", isLoggedIn, function(req, res) {
   });
 });
 
+router.post("/api/patients", isLoggedIn, function(req, res) {
+  var patientObject = req.body;
+  patientObject.CaregiverId = req.user.id;
+  careDAO.createPatient(patientObject, function(err, results) {
+    if (err) {
+      return res.status(500).end();
+    }
+    return res.status(201).json(results);
+  });
+});
+
 router.delete("/api/task/:id", isLoggedIn, function(req, res) {
   careDAO.deleteTaskById(req.params.id, function(err, results) {
     if (err) {
