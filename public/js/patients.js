@@ -2,10 +2,12 @@ $(function() {
   $("#newPatientBtn").on("click", function(e) {
     e.preventDefault();
 
+    // Clear out the status
     $("#submitStatus")
       .removeClass("text-danger")
       .empty();
 
+    // validate befire submit.
     $("#newPatientForm").validate({
       rules: {
         age: {
@@ -40,6 +42,7 @@ $(function() {
         phoneNumber: $("#phoneInput").val()
       };
 
+      // Send data.
       $.ajax({
         url: "/api/patients",
         data: newPatient,
