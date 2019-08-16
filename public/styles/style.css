@@ -12,14 +12,23 @@ body {
  }
 
 .responsive {
-    height: 100%;
-    width: 250%;
-  margin-left: -75%;
-  margin-right: -75%;
+  height: 100%;
+  width: 250%;
+margin-left: -75%;
+margin-right: -75%;
     
 }
 
 h1 {
     margin-left: 0%;
   margin-right: 0%;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+.btn {
+  background-color: rgba(26, 26, 197, 0.657);
 }

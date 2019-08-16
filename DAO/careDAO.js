@@ -50,6 +50,15 @@ module.exports = {
       .then(basePromiseCall(callback))
       .catch(basePromiseErr(callback));
   },
+  getPatientsByCaregiverId: function(caregiverId, callback) {
+    db.Patient.findAndCountAll({
+      where: {
+        CaregiverId: caregiverId
+      }
+    })
+      .then(basePromiseCall(callback))
+      .catch(basePromiseErr(callback));
+  },
   // Creates a patient.
   createPatient: function(patient, callback) {
     db.Patient.create(patient)
@@ -77,6 +86,7 @@ module.exports = {
       .then(basePromiseCall(callback))
       .catch(basePromiseErr(callback));
   },
+
   // Creates a task for a patient.
   createTask: function(task, callback) {
     db.Task.create(task)
