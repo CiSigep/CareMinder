@@ -41,6 +41,7 @@ module.exports = {
       .then(basePromiseCall(callback))
       .catch(basePromiseErr(callback));
   },
+  // Gets the caregiver by their Id
   getCaregiverById: function(id, callback) {
     db.Caregiver.findOne({
       where: {
@@ -50,6 +51,7 @@ module.exports = {
       .then(basePromiseCall(callback))
       .catch(basePromiseErr(callback));
   },
+  // Gets patients for the given caregiver
   getPatientsByCaregiverId: function(caregiverId, callback) {
     db.Patient.findAndCountAll({
       where: {
