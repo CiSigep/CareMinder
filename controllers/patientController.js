@@ -69,7 +69,7 @@ router.post("/api/bill", isLoggedIn, function(req, res) {
     return res.status(201).json(results);
   });
 });
-//Route to update patients
+//Route to create patients
 router.post("/api/patients", isLoggedIn, function(req, res) {
   var patientObject = req.body;
   patientObject.CaregiverId = req.user.id;
