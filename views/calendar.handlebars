@@ -13,7 +13,6 @@
 <link href="/styles/styles.css" rel="stylesheet">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<!-- <link href='node_modules/@fullcalendar/resource-timeline/main.css' rel='stylesheet' /> requires premium -->
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -34,7 +33,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"
     integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
 
-<!-- <script src='fullcalendar/resource-timeline/main.js'></script> requires premium -->
 
 <script>
 
@@ -80,7 +78,6 @@
         calendar.render();
 
         $("#repeatsCheck").on("click", function (e) { // only allow editing of the interval if this is checked
-            // They may need to be cleared too.
             var check = $(this).prop("checked");
             $("#repeatNumber").attr("disabled", !check);
             $("#intervalSelect").attr("disabled", !check);
@@ -89,8 +86,8 @@
         $("#saveTaskBtn").on("click", function (e) {
             var newTask = { // https://fullcalendar.io/docs/event-parsing
                 title: $("#taskTitle").val(),
-                start: moment($("#taskStart").val() + " " + $("taskTimeStart").val(), "MM-DD-YYYY HH:mm a").format(),
-                end: moment($("#taskEnd").val() + " " + $("taskTimeEnd").val(), "MM-DD-YYYY HH:mm a").format(),
+                start: moment($("#taskStart").val() + " " + $("#taskTimeStart").val(), "MM-DD-YYYY HH:mm A").format(),
+                end: moment($("#taskEnd").val() + " " + $("#taskTimeEnd").val(), "MM-DD-YYYY HH:mm A").format(),
                 extendedProps: { // Where non-FullCalendar properties go
                     priority: $("#prioritySelect").val(),
                     repeats: $("#repeatsCheckTask").prop("checked"),
@@ -107,6 +104,8 @@
                 end: newTask.end,
                 PatientId: selectedPatient
             }
+
+            console.log(taskObject.start);
             $.ajax({
                 url: "/api/task",
                 method: "POST",
@@ -129,7 +128,7 @@
                     amount: $("#billAmount").val(),
                     time: $("#intervalSelectBill").val(),
                     reason: $("#billReason").val(),
-                    repeats: $("#repeatCheckBill").prop("checked"),
+                    repeats: $("#repeatsCheckBill").prop("checked"),
                     intervalNum: $("#repeatNumberBill").val(),
                 },
             };
@@ -157,12 +156,7 @@
             });
 
         });
-        // Before you do this, send it to the database.
-        //var ev = calendar.addEvent(newTask);
-        //var ev = calendar.addEvent(newBill);
-        // You need to clear out the modal input values.
-
-        //console.log(ev.extendedProps);
+        //hide modals after saving user input
         $('#saveTaskModal').modal('hide');
         $('#billModal').modal('hide');
     });
@@ -230,13 +224,13 @@
                         <div class="form-row">
                             <div class="form-group col-12">
                                 <label for="taskTimeStart" class="col-form-label">Start Time:</label>
-                                <input type="text" class="form-control" id="taskEnd">
+                                <input type="text" class="form-control" id="taskTimeStart">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-12">
                                 <label for="taskTimeEnd" class="col-form-label">End Time:</label>
-                                <input type="text" class="form-control" id="taskEnd">
+                                <input type="text" class="form-control" id="taskTimeEnd">
                             </div>
                         </div>
                         <div class="form-row">
@@ -250,7 +244,7 @@
                             </div>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="repeats" id="repeatsCheck">
+                            <input class="form-check-input" type="checkbox" name="repeats" id="repeatsCheckTask">
                             <label class="form-check-label" for="repeatsCheckTask">
                                 Repeats
                             </label>
