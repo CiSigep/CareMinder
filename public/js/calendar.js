@@ -13,10 +13,18 @@ document.addEventListener("DOMContentLoaded", function() {
     plugins: ["dayGrid", "interaction", "timeGrid", "list", "bootstrap"],
     timeZone: "local",
     themeSystem: "bootstrap",
+    titleFormat: {
+      year: "numeric",
+      month: "short"
+    },
     header: {
-      left: "prev,next, today, custom1, custom2",
+      left: "custom1,custom2",
       center: "title",
-      right: ", dayGridMonth,timeGridWeek,timeGridDay,listMonth"
+      right: ""
+    },
+    footer: {
+      left: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+      right: "prev,next"
     },
     editable: false,
     eventLimit: true, //too many events in a day, show popover
