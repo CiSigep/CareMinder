@@ -2,20 +2,51 @@
   line-height: 2.5;
 }
 
-/* #logo {
-  align-content: center;
-  font-size: 15px;
-  font-family: 'Lato', sans-serif;
-} */
+.navbar-brand {
+  float: none;
+  position: absolute;
+  top: 67%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#logo{
+  height: 4em;
+  width: 4em;
+}
+
 
 html, body {
   margin: 0;
   padding: 0;
   font-family: "Lato", sans-serif;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 #calendar {
   max-width: 900px;
   margin: 40px auto;
+}
+
+/*begin responsive changes*/
+/* Tablet View */
+@media screen and (min-width: 641px) and (max-width: 768px) {
+.navbar {
+    float: none;
+    width: 100vw;
+    padding: 0px;
+    font-size: 1rem;
+}
+ul {
+  margin: auto;
+  width: fit-content;
+}
+.container {
+      padding-top: 1rem;
+      text-align: justify;
+  }
+  button {
+      font-size: 1rem;
+      display: inline-block;
+  }
 }
