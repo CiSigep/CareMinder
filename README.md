@@ -34,8 +34,7 @@ This is where tasks and bills can be added, the caregiver can click either add a
 
 Once the input hase been received, it will be sent to the server and added to the calendar, where the caregiver can click on it to show what they input for that event.
 
-<img align="left" src="IMG/taskOutModal.png" alt="task output">
-<img align="right" alt="bill outnput" src="IMG/billOutModal.png">
+<img src="IMG/taskOutModal.png" alt="task output" width="249" height="172"><img alt="bill outnput" src="IMG/billOutModal.png" width="249" height="172">
 
 When they view the task or bill, they can choose to delete it, which will remove it from the calendar and the server.
 
