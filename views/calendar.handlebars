@@ -40,9 +40,10 @@
 <script src="/js/calendar.js"></script>
 {{/section}}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand navbar-light">
     <a href="/profile"><i class="fas fa-home fa-2x"></i></a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -55,12 +56,12 @@
                     {{/each}}
                 </div>
             </li>
-            <li class="nav-item">
-                <span class="navbar-brand" id="logo">CareMinder</span>
-            </li>
+        </ul>
+        <div class="logoImg">
+            <a class="navbar-brand" href="#"><img src="/img/Logo-CM.jpg" alt="CareMindersLogo"/></a>
+        </div>
     </div>
         <a href="/logout"><i class="fas fa-sign-out-alt fa-2x"></i></a>
-
 </nav>
 
 <br>
