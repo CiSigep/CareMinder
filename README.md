@@ -30,8 +30,8 @@ Once signed in, the caregiver will arrive at the profile page above, where they 
 
 This is where tasks and bills can be added, the caregiver can click either add and a modal will show up:
 
-<img src="IMG/taskInModal.png" width="165px" height="311px">
-![bill input](IMG/billInModal.png)
+<img src="IMG/taskInModal.png" width="248px" height="467px" alt="task input">
+<img src="IMG/billInModal.png" width="248" height="365" alt="bill input">
 
 Once the input hase been received, it will be sent to the server and added to the calendar, where the caregiver can click on it to show what they input for that event.
 
