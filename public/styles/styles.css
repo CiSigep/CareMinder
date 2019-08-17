@@ -3,14 +3,18 @@
 }
 
 .navbar-brand {
-  transform: translateX(-50%);
-  left: 50%;
+  float: none;
   position: absolute;
+  top: 67%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.logoImg{
-  height: 4em;
+#logo{
+  height: 5em;
+  width: 5em;
 }
+
 
 html, body {
   margin: 0;
