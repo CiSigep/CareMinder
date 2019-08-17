@@ -1,5 +1,7 @@
 {{#section 'head'}}
 <meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <link href='https://unpkg.com/@fullcalendar/core/main.min.css' rel='stylesheet' />
 <link href='https://unpkg.com/@fullcalendar/daygrid/main.min.css' rel='stylesheet' />
@@ -42,7 +44,6 @@
 
 <nav class="navbar navbar-expand navbar-light">
     <a href="/profile"><i class="fas fa-home fa-2x"></i></a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -57,11 +58,9 @@
                 </div>
             </li>
         </ul>
-        {{!-- <li><a href="#"><img id="logo-navbar-middle" src="/img/Logo-CM.jpg" width="200" alt="CareMinders logo"></a></li> --}}
         <div class="navLogo">
             <a class="navbar-brand" href="#"><img src="/img/Logo-CM.jpg" id="logo" alt="CareMindersLogo"/></a>
         </div>
-    </div>
         <a href="/logout"><i class="fas fa-sign-out-alt fa-2x"></i></a>
 </nav>
 

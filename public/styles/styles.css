@@ -11,8 +11,8 @@
 }
 
 #logo{
-  height: 5em;
-  width: 5em;
+  height: 4em;
+  width: 4em;
 }
 
 
@@ -26,4 +26,27 @@ html, body {
 #calendar {
   max-width: 900px;
   margin: 40px auto;
+}
+
+/*begin responsive changes*/
+/* Tablet View */
+@media screen and (min-width: 641px) and (max-width: 768px) {
+.navbar {
+    float: none;
+    width: 100vw;
+    padding: 0px;
+    font-size: 1rem;
+}
+ul {
+  margin: auto;
+  width: fit-content;
+}
+.container {
+      padding-top: 1rem;
+      text-align: justify;
+  }
+  button {
+      font-size: 1rem;
+      display: inline-block;
+  }
 }
