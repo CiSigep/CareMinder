@@ -8,7 +8,7 @@ CareMinder is an application that allows caregivers to create a schedule for the
 
 ## Login
 
-<img src="IMG/login.png" width="950px" height="420px">
+![login](IMG/login.png)
 
 This is the login page, the caregiver can use this page to login to the application or go to the signup page to create an account.
 
@@ -30,7 +30,7 @@ Once signed in, the caregiver will arrive at the profile page above, where they 
 
 This is where tasks and bills can be added, the caregiver can click either add and a modal will show up:
 
-![task input](IMG/taskInModal.png)
+<img src="IMG/taskInModal.png" width="165px" height="311px">
 ![bill input](IMG/billInModal.png)
 
 Once the input hase been received, it will be sent to the server and added to the calendar, where the caregiver can click on it to show what they input for that event.
