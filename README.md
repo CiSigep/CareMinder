@@ -8,7 +8,7 @@ CareMinder is an application that allows caregivers to create a schedule for the
 
 ## Login
 
-![login](IMG/login.png)
+<img src="IMG/login.png" width="950px" height="420px">
 
 This is the login page, the caregiver can use this page to login to the application or go to the signup page to create an account.
 
